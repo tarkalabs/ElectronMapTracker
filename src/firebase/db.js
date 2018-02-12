@@ -11,4 +11,7 @@ export const doCreateUser = (id, username, email) =>
 export const onceGetUsers = () =>
   db.ref('users').once('value');
 
+export const onceGetAllPoints = () =>
+  db.ref('tracker').once('value');
+
 // Other db APIs ...
