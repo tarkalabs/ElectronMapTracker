@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-export function getLatestLatLongForDevices(heartBeats) {
-  return _(heartBeats)
+export function getLatestLatLongForDevices(pings) {
+  return _(pings)
     .values()
     .groupBy('coreid')
     .values()

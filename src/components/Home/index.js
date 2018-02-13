@@ -1,5 +1,7 @@
+/* global google */
 import React, { Component } from 'react';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
+import { MarkerWithLabel } from "react-google-maps/lib/components/addons/MarkerWithLabel";
 import _ from 'lodash';
 
 import withAuthorization from '../Session/withAuthorization';
@@ -19,7 +21,7 @@ class HomePage extends Component {
     super(props);
 
     this.state = {
-      heartBeats: [],
+      pings: [],
     };
 
     this.getMarkers = this.getMarkers.bind(this);
@@ -28,15 +30,25 @@ class HomePage extends Component {
 
   componentDidMount() {
     db.onceGetAllPoints().then(snapshot => {
-      const heartBeats = snapshot.val() || [];
+      const pings = snapshot.val() || [];
       this.setState(() => ({
-        heartBeats: getLatestLatLongForDevices(heartBeats)
+        pings: getLatestLatLongForDevices(pings)
       }))
     });
   }
 
   getMarkers() {
-    return this.state.heartBeats.map(beat => <Marker position={{ lat: beat.lat, lng: beat.lng }} />)
+    return this.state.pings.map(ping =>
+      <MarkerWithLabel
+        key={ping.coreid}
+        labelAnchor={new google.maps.Point(0, 0)}
+        position={{ lat: ping.lat, lng: ping.lng }}
+        labelStyle={{backgroundColor: "yellow", fontSize: "10px", padding: "5px"}}>
+        <div>
+          <div><strong>DeviceId:</strong> {ping.coreid}</div>
+          <div><strong>Battery:</strong> {ping.battery_percent}%</div>
+        </div>
+      </MarkerWithLabel>)
   }
 
   renderMapComponent() {
