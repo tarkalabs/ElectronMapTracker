@@ -50,15 +50,15 @@ class HomePage extends Component {
         containerElement={<div style={{ height: `400px` }} />}
         mapElement={<div style={{ height: `100%` }} />} />
     } else {
-      return false
+      return <h4>Loading map...</h4>
     }
   }
 
   render() {
     return (
       <div>
-        <h1>Home</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
+        <h1>Devices</h1>
+        <p>Showing last known location of the devices.</p>
 
         { this.renderMapComponent() }
       </div>
