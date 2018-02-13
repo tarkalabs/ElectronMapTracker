@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap } from "react-google-maps"
 import { MarkerWithLabel } from "react-google-maps/lib/components/addons/MarkerWithLabel";
 import _ from 'lodash';
+import moment from 'moment';
 
 import withAuthorization from '../Session/withAuthorization';
 import { db } from '../../firebase';
@@ -46,6 +47,7 @@ class HomePage extends Component {
         labelStyle={{backgroundColor: "yellow", fontSize: "10px", padding: "5px"}}>
         <div>
           <div><strong>DeviceId:</strong> {ping.coreid}</div>
+          <div><strong>Last Known:</strong> {moment(ping.published_at).format('MMM Do YY, h:mm:ss a')}</div>
           <div><strong>Battery:</strong> {ping.battery_percent}%</div>
         </div>
       </MarkerWithLabel>)
