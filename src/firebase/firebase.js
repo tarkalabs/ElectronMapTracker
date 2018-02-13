@@ -2,21 +2,21 @@ import * as firebase from 'firebase';
 
 
 const prodConfig = {
-  // apiKey: YOUR_API_KEY,
-  // authDomain: YOUR_AUTH_DOMAIN,
-  // databaseURL: YOUR_DATABASE_URL,
-  // projectId: YOUR_PROJECT_ID,
-  // storageBucket: '',
-  // messagingSenderId: YOUR_MESSAGING_SENDER_ID,
+  apiKey: "AIzaSyDOA__0NTA5fLFNvQIi6m2ILz2KmDJ_QWE",
+    authDomain: "tracker-b6d66.firebaseapp.com",
+    databaseURL: "https://tracker-b6d66.firebaseio.com",
+    projectId: "tracker-b6d66",
+    storageBucket: "tracker-b6d66.appspot.com",
+    messagingSenderId: "870986436179"
 };
 
 const devConfig = {
-  apiKey: "AIzaSyDPSYv-0wzdU_kp-hzqq8_A2gfU8pcVDkE",
-  authDomain: "tarkalabstracker-1517842574793.firebaseapp.com",
-  databaseURL: "https://tarkalabstracker-1517842574793.firebaseio.com",
-  projectId: "tarkalabstracker-1517842574793",
-  storageBucket: "tarkalabstracker-1517842574793.appspot.com",
-  messagingSenderId: "1052174299732"
+  apiKey: "AIzaSyDOA__0NTA5fLFNvQIi6m2ILz2KmDJ_QWE",
+    authDomain: "tracker-b6d66.firebaseapp.com",
+    databaseURL: "https://tracker-b6d66.firebaseio.com",
+    projectId: "tracker-b6d66",
+    storageBucket: "tracker-b6d66.appspot.com",
+    messagingSenderId: "870986436179"
 };
 
 const config = process.env.NODE_ENV === 'production'

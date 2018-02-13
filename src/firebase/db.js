@@ -12,6 +12,6 @@ export const onceGetUsers = () =>
   db.ref('users').once('value');
 
 export const onceGetAllPoints = () =>
-  db.ref('tracker').once('value');
+  db.ref('pings').once('value');
 
 // Other db APIs ...
