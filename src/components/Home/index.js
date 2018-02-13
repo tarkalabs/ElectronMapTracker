@@ -4,12 +4,13 @@ import _ from 'lodash';
 
 import withAuthorization from '../Session/withAuthorization';
 import { db } from '../../firebase';
+import { getLatestLatLongForDevices } from './helper';
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>
   <GoogleMap
     defaultZoom={8}
     defaultCenter={{ lat: 13.0827, lng: 80.2707 }} >
-    {props.isMarkerShown && <Marker position={{ lat: props.lat, lng: props.long }} />}
+    {props.markers}
   </GoogleMap>
 ))
 
@@ -19,46 +20,31 @@ class HomePage extends Component {
 
     this.state = {
       heartBeats: [],
-      lastBeat: {}
     };
 
-    this.getLastBeatDetails = this.getLastBeatDetails.bind(this);
+    this.getMarkers = this.getMarkers.bind(this);
   }
 
-  getLastBeatDetails() {
-    const { lastBeat } = this.state;
-
-    if(_.isEmpty(lastBeat)){
-      return {};
-    }
-
-    const { coreid, data } = lastBeat;
-    const { geo_code, battery_percent } = JSON.parse(data);
-    const [ latStr, longStr ] = geo_code.split(",");
-    const [ lat, long ] = [Number(latStr), Number(longStr)]
-    return { coreid, lat, long, battery_percent }
-  }
 
   componentDidMount() {
     db.onceGetAllPoints().then(snapshot => {
       const heartBeats = snapshot.val() || [];
       this.setState(() => ({
-        heartBeats: heartBeats,
-        lastBeat: _.maxBy(_.values(heartBeats), (b) => Date.parse(b.published_at))
+        heartBeats: getLatestLatLongForDevices(heartBeats)
       }))
     });
   }
 
-  renderMapComponent() {
-    const { coreid, lat, long, battery_percent } = this.getLastBeatDetails();
+  getMarkers() {
+    return this.state.heartBeats.map(beat => <Marker position={{ lat: beat.lat, lng: beat.lng }} />)
+  }
 
-    if(coreid && lat && long && battery_percent) {
+  renderMapComponent() {
+    const markers = this.getMarkers();
+
+    if(!_.isEmpty(markers)) {
       return <MyMapComponent
-        isMarkerShown
-        lat={lat}
-        long={long}
-        deviceId={coreid}
-        batteryPercent={battery_percent}
+        markers={markers}
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `400px` }} />}
@@ -69,14 +55,12 @@ class HomePage extends Component {
   }
 
   render() {
-    const mapComponent = this.renderMapComponent();
-
     return (
       <div>
         <h1>Home</h1>
         <p>The Home Page is accessible by every signed in user.</p>
 
-        { mapComponent }
+        { this.renderMapComponent() }
       </div>
     );
   }
