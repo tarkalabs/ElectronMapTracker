@@ -3,14 +3,19 @@ import {
   Link,
   withRouter,
 } from 'react-router-dom';
-
+import { SignInLink } from '../SignIn';
 import { auth, db } from '../../firebase';
 import * as routes from '../../constants/routes';
 
 const SignUpPage = ({ history }) =>
   <div>
+    <div class="page-empty">
+    <div class="page-empty-content">
     <h1>SignUp</h1>
     <SignUpForm history={history} />
+    <SignInLink />
+    </div>
+    </div>
   </div>
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -81,35 +86,37 @@ class SignUpForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+      <div class="form-group">
+        <input class="form-control"
           value={username}
           onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
           type="text"
           placeholder="Full Name"
         />
-        <input
+        <input class="form-control"
           value={email}
           onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
           type="text"
           placeholder="Email Address"
         />
-        <input
+        <input class="form-control"
           value={passwordOne}
           onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
           type="password"
           placeholder="Password"
         />
-        <input
+        <input class="form-control"
           value={passwordTwo}
           onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm Password"
         />
-        <button disabled={isInvalid} type="submit">
+        <button class="button button-primary button-right" disabled={isInvalid} type="submit">
           Sign Up
         </button>
 
         { error && <p>{error.message}</p> }
+      </div>
       </form>
     );
   }
